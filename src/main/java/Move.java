@@ -1,9 +1,8 @@
 
-public class Move {
+public class Move extends ParityComparator {
 
     private final Cell cellFrom;
     private final Cell cellTo;
-    private final static ParityComparator parityComparator = new ParityComparator();
 
     public Move(Cell cellFrom, Cell cellTo) {
         this.cellFrom = cellFrom;
@@ -34,10 +33,10 @@ public class Move {
     }
 
     private boolean isSameParity() {
-        return parityComparator.compare(cellFrom.getStack().peek(), cellTo.getStack().peek()) == 0;
+        return compare(cellFrom.getStack().peek(), cellTo.getStack().peek()) == 0;
     }
 
     private boolean isCellFromIsSmallerThanCellTo() {
-        return parityComparator.compare(cellFrom.getStack().peek(), cellTo.getStack().peek()) < 0;
+        return cellFrom.getStack().peek() < cellTo.getStack().peek();
     }
 }
