@@ -1,15 +1,28 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import lombok.Getter;
 
+import java.util.*;
+
+@Getter
 public class Board {
-    private final Map<Character, Cell> cells;
-    public Board() {
-        cells = new HashMap<>();
+    private final Map<Character, Cell> cells = new HashMap<>();
+
+    public Board(){
         initializeCells();
     }
 
-    private void initializeCells() {
+    public static Board copyOf(Board currentBoard){
+        Board newBoard = new Board();
+        for (var entry : currentBoard.getCells().entrySet()) {
+            char cellName = entry.getKey();
+            Cell originalCell = entry.getValue();
+            Cell copiedCell = new Cell(cellName);
+            copiedCell.getStack().addAll(originalCell.getStack());
+            newBoard.getCells().put(cellName, copiedCell);
+        }
+        return newBoard;
+    }
+
+    public void initializeCells() {
         cells.put('A', new Cell('A'));
         cells.put('B', new Cell('B'));
         cells.put('C', new Cell('C'));
@@ -22,16 +35,6 @@ public class Board {
         cellToFill.getStack().addAll(List.of(8, 7, 6, 5, 4, 3, 2, 1));
     }
 
-    public void makeMoves() {
-        makeMove(new Move(cells.get('E'), cells.get('A')));
-        makeMove(new Move(cells.get('E'), cells.get('B')));
-        makeMove(new Move(cells.get('E'), cells.get('C')));
-        makeMove(new Move(cells.get('A'), cells.get('C')));
-    }
-    public void makeMove(Move move) {
-        move.makeMove();
-    }
-
     public void printBoard() {
         System.out.println("---------------------------");
         var entrySet = cells.entrySet();
@@ -39,5 +42,9 @@ public class Board {
             System.out.println(entry.getKey() + ": " + entry.getValue().getStackAsString());
         }
         System.out.println("---------------------------");
+    }
+
+    public void makeMove(Move move) {
+        move.makeMove();
     }
 }
