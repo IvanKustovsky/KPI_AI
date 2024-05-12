@@ -1,10 +1,7 @@
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -17,13 +14,30 @@ public class State {
     private Map<Character, Cell> cells = new HashMap<>();
     public State(Cell cellA, Cell cellB, Cell cellC, Cell cellD, Cell cellE) {
         this.cellA = cellA;
-        this.cellA.setStack(cellA.getStack());
         this.cellB = cellB;
         this.cellC = cellC;
         this.cellD = cellD;
         this.cellE = cellE;
-        this.cellE.setStack(cellE.getStack());
         initializeCells();
+    }
+
+    public static State getTargetState() {
+        Cell cellA = new Cell('A', List.of(7, 3, 1));
+        Cell cellB = new Cell('B', List.of(8, 6, 4, 2));
+        Cell cellC = new Cell('C');
+        Cell cellD = new Cell('D');
+        Cell cellE = new Cell('E', List.of(5));
+
+        return new State(cellA, cellB, cellC, cellD, cellE);
+    }
+
+    public static State getInitialState() {
+        Cell cellA = new Cell('A');
+        Cell cellB = new Cell('B');
+        Cell cellC = new Cell('C');
+        Cell cellD = new Cell('D');
+        Cell cellE = new Cell('E', List.of(8, 7, 6, 5, 4, 3, 2, 1));
+        return new State(cellA, cellB, cellC, cellD, cellE);
     }
 
     public State copy() {
@@ -40,11 +54,7 @@ public class State {
         copiedCells.put('D', copiedCellD);
         copiedCells.put('E', copiedCellE);
 
-        return new State(copiedCellA, copiedCellB, copiedCellC, copiedCellD, copiedCellE);
-    }
-
-    public void makeMove(Move move) {
-        move.makeMove();
+        return new State(copiedCells);
     }
 
     public Cell cellOf(char cellName) {
@@ -71,7 +81,7 @@ public class State {
     public void printBoard() {
         System.out.println("---------------------------");
         var entrySet = cells.entrySet();
-        for(var entry : entrySet){
+        for (var entry : entrySet) {
             System.out.println(entry.getKey() + ": " + entry.getValue().getStackAsString());
         }
         System.out.println("---------------------------");
@@ -81,7 +91,7 @@ public class State {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof State state)) return false;
-        return     Objects.equals(getCellA().getStack(), state.getCellA().getStack())
+        return Objects.equals(getCellA().getStack(), state.getCellA().getStack())
                 && Objects.equals(getCellB().getStack(), state.getCellB().getStack())
                 && Objects.equals(getCellC().getStack(), state.getCellC().getStack())
                 && Objects.equals(getCellD().getStack(), state.getCellD().getStack())

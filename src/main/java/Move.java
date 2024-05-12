@@ -1,18 +1,14 @@
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 public class Move extends ParityComparator {
     private Cell cellFrom;
     private Cell cellTo;
 
     public void makeMove() {
-        if(isValidMove()) {
+        if (isValidMove()) {
             cellTo.getStack().push(cellFrom.getStack().pop());
         } else {
             System.out.println("Can't move number " + (isCellEmpty(cellFrom) ? "EMPTY" : cellFrom.getStack().peek())

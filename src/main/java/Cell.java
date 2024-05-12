@@ -1,4 +1,5 @@
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -7,13 +8,10 @@ import java.util.Stack;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Cell {
     private final char cell;
     private Stack<Integer> stack = new Stack<>();
-
-    public Cell(char cellName) {
-        cell = cellName;
-    }
 
     public Cell(char cellName, List<Integer> elements) {
         cell = cellName;
@@ -21,7 +19,7 @@ public class Cell {
     }
 
     public String getStackAsString() {
-        return stack.toString(); // Повертає рядок з вмістом стека
+        return stack.toString();
     }
 
     @Override
@@ -40,7 +38,8 @@ public class Cell {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Cell cell1)) return false;
-        return getCell() == cell1.getCell() && Objects.equals(getStack(), cell1.getStack());
+        return getCell() == cell1.getCell()
+                && Objects.equals(getStack(), cell1.getStack());
     }
 
     @Override
