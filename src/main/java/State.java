@@ -24,9 +24,9 @@ public class State {
     public static State getTargetState() {
         Cell cellA = new Cell('A', List.of(7, 3, 1));
         Cell cellB = new Cell('B', List.of(8, 6, 4, 2));
-        Cell cellC = new Cell('C');
+        Cell cellC = new Cell('C', List.of(5));
         Cell cellD = new Cell('D');
-        Cell cellE = new Cell('E', List.of(5));
+        Cell cellE = new Cell('E');
 
         return new State(cellA, cellB, cellC, cellD, cellE);
     }

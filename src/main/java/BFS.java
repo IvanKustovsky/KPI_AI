@@ -4,18 +4,19 @@ public class BFS {
 
     public static List<State> bfs(State initialState, State targetState) {
         Queue<State> queue = new LinkedList<>();
-        Set<State> visited = new LinkedHashSet<>();
+        Map<State, State> predecessorMap = new HashMap<>();
 
         queue.add(initialState);
-        visited.add(initialState);
+        predecessorMap.put(initialState, null);
 
         while (!queue.isEmpty()) {
             State currentState = queue.poll();
+
             if (currentState.equals(targetState)) {
-                return reconstructPath(currentState, visited);
+                return reconstructPath(currentState, predecessorMap);
             }
 
-            // Generate all valid moves from current state
+            // Generate all valid moves from the current state
             for (char from = 'E'; from >= 'A'; from--) {
                 for (char to = 'A'; to <= 'E'; to++) {
                     if (from != to) {
@@ -25,10 +26,9 @@ public class BFS {
                         Move move = new Move(cellFrom, cellTo);
                         if (move.isValidMove()) {
                             move.makeMove();
-                            if (!visited.contains(newState)) {
-                                visited.add(newState);
+                            if (!predecessorMap.containsKey(newState)) {
+                                predecessorMap.put(newState, currentState);
                                 queue.add(newState);
-                                currentState = newState;
                             }
                         }
                     }
@@ -40,17 +40,14 @@ public class BFS {
         return new ArrayList<>();
     }
 
-    private static List<State> reconstructPath(State targetState, Set<State> visited) {
+    private static List<State> reconstructPath(State targetState, Map<State, State> predecessorMap) {
         List<State> path = new ArrayList<>();
-        int stepsCounter = 0;
-        for (State state : visited) {
-            stepsCounter++;
-            path.add(state);
-            if (state == targetState) {
-                System.out.println(stepsCounter);
-                break;
-            }
+        State currentState = targetState;
+        while (currentState != null) {
+            path.add(currentState);
+            currentState = predecessorMap.get(currentState);
         }
+        Collections.reverse(path);
         return path;
     }
 }
