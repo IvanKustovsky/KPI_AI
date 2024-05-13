@@ -6,7 +6,7 @@ public class Main {
         State targetState = State.getTargetState();
 
         var statesToTarget = BFS.bfs(initialState, targetState);
-        statesToTarget.forEach(State::printBoard);
+        statesToTarget.forEach(Printer::printState);
         System.out.println("Steps to achieve target: " + statesToTarget.size());
     }
 }

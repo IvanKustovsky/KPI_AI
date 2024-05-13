@@ -61,7 +61,7 @@ public class State {
         return cells.get(cellName);
     }
 
-    public State(Map<Character, Cell> cells) {
+    private State(Map<Character, Cell> cells) {
         this.cells = cells;
         this.cellA = cells.get('A');
         this.cellB = cells.get('B');
@@ -76,15 +76,6 @@ public class State {
         cells.put('C', cellC);
         cells.put('D', cellD);
         cells.put('E', cellE);
-    }
-
-    public void printBoard() {
-        System.out.println("---------------------------");
-        var entrySet = cells.entrySet();
-        for (var entry : entrySet) {
-            System.out.println(entry.getKey() + ": " + entry.getValue().getStackAsString());
-        }
-        System.out.println("---------------------------");
     }
 
     @Override
