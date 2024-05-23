@@ -5,14 +5,17 @@ public class BFS {
     public static List<State> bfs(State initialState, State targetState) {
         Queue<State> queue = new LinkedList<>();
         Map<State, State> predecessorMap = new HashMap<>();
+        int statesCounter = 0;
 
         queue.add(initialState);
         predecessorMap.put(initialState, null);
 
         while (!queue.isEmpty()) {
             State currentState = queue.poll();
+            statesCounter++;
 
             if (currentState.equals(targetState)) {
+                System.out.println("Number of all visited states to achieve target with BFS algorithm is " + statesCounter);
                 return reconstructPath(currentState, predecessorMap);
             }
 
